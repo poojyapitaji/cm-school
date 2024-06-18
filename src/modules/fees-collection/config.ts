@@ -18,5 +18,6 @@ export const navigation: MenuProps[] = [
     icon: CurrencyRupee,
     title: "Fees Collection",
     menus: [],
+    slug: init.name,
   },
 ];

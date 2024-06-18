@@ -1,8 +1,15 @@
 import { NextUIProvider } from "@nextui-org/system";
 import { useNavigate } from "react-router-dom";
 
-export function Provider({ children }: { children: React.ReactNode }) {
+import { ProviderWrapperProps } from "./types";
+import { ToastProvider } from "./providers/toast-context";
+
+export function Provider({ children }: ProviderWrapperProps) {
   const navigate = useNavigate();
 
-  return <NextUIProvider navigate={navigate}>{children}</NextUIProvider>;
+  return (
+    <NextUIProvider navigate={navigate}>
+      <ToastProvider>{children}</ToastProvider>
+    </NextUIProvider>
+  );
 }

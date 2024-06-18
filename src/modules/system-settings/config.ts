@@ -16,11 +16,7 @@ export const navigation: MenuProps[] = [
     key: init.placement,
     icon: Settings,
     title: "System Settings",
-    menus: [
-      {
-        href: "/",
-        label: "General Settings",
-      },
-    ],
+    slug: init.name,
+    menus: [],
   },
 ];

@@ -17,5 +17,6 @@ export const navigation: MenuProps[] = [
     icon: BankNotes,
     title: "Income",
     menus: [],
+    slug: init.name,
   },
 ];

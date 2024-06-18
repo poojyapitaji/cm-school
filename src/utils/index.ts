@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
 
 import { ElementType, ReactNode } from "react";
-import { RouteObject } from "react-router-dom";
 
-import { MenuProps, Modules } from "@/types";
+import { CustomProviderRouteObject, MenuProps, Modules } from "@/types";
 
 export const fetchModuleConfigs = async (
   activeModules: string[]
@@ -40,8 +39,10 @@ export const isValidElementType = (
   );
 };
 
-export const generateRoutes = (navigation: MenuProps[]): RouteObject[] => {
-  const routes: RouteObject[] = [];
+export const generateRoutes = (
+  navigation: MenuProps[]
+): CustomProviderRouteObject[] => {
+  const routes: CustomProviderRouteObject[] = [];
 
   navigation.forEach((menu) => {
     menu.menus.forEach((item) => {
@@ -49,6 +50,11 @@ export const generateRoutes = (navigation: MenuProps[]): RouteObject[] => {
         routes.push({
           path: item.href,
           element: item.element as any,
+          providers: [
+            ...(menu.globalProviders || []),
+            ,
+            ...((item.providers as any) || []),
+          ],
         });
       }
     });

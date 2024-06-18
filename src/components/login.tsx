@@ -1,6 +1,5 @@
-import { Input } from "@nextui-org/input";
 import { useState } from "react";
-import { Button } from "@nextui-org/button";
+import { Button, Input } from "@nextui-org/react";
 
 import { CloseEye, OpenEye } from "@/components/icons";
 import { title } from "@/components/primitives";

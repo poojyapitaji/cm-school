@@ -18,5 +18,6 @@ export const navigation: MenuProps[] = [
     icon: UserPlus,
     title: "Student Information",
     menus: [],
+    slug: init.name,
   },
 ];
