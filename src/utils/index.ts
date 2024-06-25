@@ -2,7 +2,7 @@
 
 import { ElementType, ReactNode } from "react";
 
-import { CustomProviderRouteObject, MenuProps, Modules } from "@/types";
+import { CustomProviderRouteObject, SidebarMenuProps, Modules } from "@/types";
 
 export const fetchModuleConfigs = async (
   activeModules: string[]
@@ -22,12 +22,16 @@ export const fetchModuleConfigs = async (
   }
 };
 
-export const getAllNavigationMenus = (modules: Modules[]): MenuProps[] => {
+export const getAllNavigationMenus = (
+  modules: Modules[]
+): SidebarMenuProps[] => {
   const sortedModules = [...modules].sort(
     (a, b) => a.init.placement - b.init.placement
   );
 
-  return sortedModules.flatMap((module) => module.navigation) as MenuProps[];
+  return sortedModules.flatMap(
+    (module) => module.navigation
+  ) as SidebarMenuProps[];
 };
 
 export const isValidElementType = (
@@ -40,7 +44,7 @@ export const isValidElementType = (
 };
 
 export const generateRoutes = (
-  navigation: MenuProps[]
+  navigation: SidebarMenuProps[]
 ): CustomProviderRouteObject[] => {
   const routes: CustomProviderRouteObject[] = [];
 
@@ -61,4 +65,10 @@ export const generateRoutes = (
   });
 
   return routes;
+};
+
+export const convertToTitleCase = (text: string) => {
+  if (!text) return;
+
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 };

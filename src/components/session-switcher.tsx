@@ -1,17 +1,7 @@
-import {
-  Chip,
-  Tooltip,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  Select,
-  SelectItem,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Chip, Tooltip, Select, SelectItem } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+
+import { useModal } from "@/providers/modal-context";
 
 const sessions = [
   "2019-20",
@@ -24,7 +14,27 @@ const sessions = [
 
 const SessionSwitcher = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { openModal } = useModal();
+
+  const handleModal = () => {
+    openModal({
+      header: "Change Session",
+      body: (
+        <div>
+          <Select defaultSelectedKeys={["2024-25"]} label="Session">
+            {sessions.map((session) => (
+              <SelectItem key={session}>{session}</SelectItem>
+            ))}
+          </Select>
+        </div>
+      ),
+      showSaveButton: true,
+      modalProps: {
+        isDismissable: false,
+      },
+    });
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -54,40 +64,12 @@ const SessionSwitcher = () => {
             color="primary"
             size="sm"
             title="Change Session"
-            onClick={onOpen}
+            onClick={handleModal}
           >
             2024-25
           </Chip>
         </Tooltip>
       </div>
-      <Modal backdrop="blur" isOpen={isOpen} onClose={onClose}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Change Session
-              </ModalHeader>
-              <ModalBody>
-                <div>
-                  <Select defaultSelectedKeys={["2024-25"]} label="Session">
-                    {sessions.map((session) => (
-                      <SelectItem key={session}>{session}</SelectItem>
-                    ))}
-                  </Select>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Save
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
     </>
   );
 };

@@ -1,8 +1,6 @@
-import CommandBar from "@/components/command-bar";
 import { Navbar } from "@/components/navbar";
 import { Sidebar } from "@/components/sidebar";
 import { MenuProps } from "@/types";
-import { CommandProvider } from "@/providers/command-context";
 
 interface DefaultLayoutProps {
   menus: MenuProps[];
@@ -15,12 +13,7 @@ export default function DefaultLayout({ menus, children }: DefaultLayoutProps) {
       <Navbar />
       <div className="flex h-full">
         <Sidebar menus={menus} />
-        <main className="flex-1">
-          <CommandProvider>
-            <CommandBar />
-            {children}
-          </CommandProvider>
-        </main>
+        <main className="flex-1 p-4">{children}</main>
       </div>
     </div>
   );
