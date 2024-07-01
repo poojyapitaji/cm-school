@@ -51,7 +51,7 @@ export const Sidebar: React.FC<{ menus: SidebarMenuProps[] }> = ({ menus }) => {
   };
 
   return (
-    <section className="py-2 w-full max-w-[300px] shadow">
+    <section className="py-2 w-[300px] shadow fixed overflow-y-auto mt-[4rem] h-[calc(100%-4rem)] top-0 left-0">
       <div className="sm:hidden flex flex-col py-3 px-2 gap-3">
         <SessionSwitcher />
         <SearchInput />

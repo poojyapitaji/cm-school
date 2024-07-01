@@ -47,6 +47,9 @@ dependencies:
   framer-motion:
     specifier: ~11.1.1
     version: 11.1.9(react-dom@18.3.1)(react@18.3.1)
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   nano-pubsub:
     specifier: ^3.0.0
     version: 3.0.0
@@ -67,6 +70,9 @@ dependencies:
     version: 3.4.3
 
 devDependencies:
+  '@types/lodash':
+    specifier: ^4.17.5
+    version: 4.17.5
   '@types/react':
     specifier: 18.3.3
     version: 18.3.3
@@ -3975,7 +3981,6 @@ packages:
 
   /@types/lodash@4.17.5:
     resolution: {integrity: sha512-MBIOHVZqVqgfro1euRDWX7OO0fBVUUMrN6Pwm8LQsz8cWhEpihlvR70ENj3f40j58TNxZaWv2ndSkInykNBBJw==}
-    dev: false
 
   /@types/prop-types@15.7.12:
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
@@ -5796,6 +5801,10 @@ packages:
 
   /lodash.omit@4.5.0:
     resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
+    dev: false
+
+  /lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: false
 
   /loose-envify@1.4.0:

@@ -1,114 +1,24 @@
 import React, { useState } from "react";
+import _ from "lodash";
 
-import { CMFile } from "@/types";
-import { ToastContextType, useToast } from "@/providers/toast-context";
+import {
+  FOAdmissionEnquiry,
+  FOComplain,
+  FOPhoneCallLog,
+  FOPostalDispatch,
+  FOPostalReceive,
+  FOSetting,
+  FOSettings,
+  FOVisitorBook,
+  FrontOfficeStoreProviderProps,
+  ViewOrEditSettingData,
+} from "../types";
+import FrontOfficeService from "../services/front-office-settings.store";
 
-interface FrontOfficeStoreProviderProps {
-  children: React.ReactNode;
-}
-
-export interface FOSetting {
-  title: string;
-  description?: string;
-}
-
-export interface FOSettings {
-  purpose: FOSetting[];
-  complaintType: FOSetting[];
-  source: FOSetting[];
-  reference: FOSetting[];
-}
-
-export type FOAdmissionEnquiryFollowUpStatus =
-  | "Active"
-  | "Passive"
-  | "Dead"
-  | "Won"
-  | "Lost";
-
-export interface FOAdmissionEnquiryFollowUp {
-  response: string;
-  note: string;
-  nextFollowUpDate: Date;
-}
-
-export interface FOAdmissionEnquiry {
-  name: string;
-  phone: number;
-  email: string;
-  address: string;
-  description: string;
-  note: string;
-  date: Date;
-  assignedTo: string;
-  reference: string;
-  source: string;
-  class: string;
-  numberOfChild: number;
-  status: FOAdmissionEnquiryFollowUpStatus;
-  followUps: FOAdmissionEnquiryFollowUp[];
-}
-
-export interface FOVisitorBook {
-  name: string;
-  phone: number;
-  id: string;
-  numberOfPerson: number;
-  purpose: string;
-  date: Date;
-  inTime: string;
-  outTime: string;
-  note: string;
-  documents: CMFile[];
-}
-
-export type FOPhoneCallLogCallType = "Incoming" | "Outgoing";
-
-export interface FOPhoneCallLog {
-  name: string;
-  phont: number;
-  date: Date;
-  description: string;
-  note: string;
-  callType: FOPhoneCallLogCallType;
-  followUps: FOAdmissionEnquiryFollowUp[];
-}
-
-export type FOPostalDispatchReceiveType = "dispatch" | "receive";
-
-export interface FOPostalOperation<T extends string> {
-  to: string;
-  type: T;
-  from: string;
-  referenceNumber: string;
-  address: string;
-  note: string;
-  documents: CMFile[];
-}
-
-export type FOPostalDispatch = FOPostalOperation<"dispatch">;
-
-export type FOPostalReceive = FOPostalOperation<"receive">;
-
-export type FOComplaintStatus =
-  | "Open"
-  | "In Progress"
-  | "Resolved"
-  | "Closed"
-  | "Pending"
-  | "Escalated"
-  | "Rejected";
-
-export interface FOComplain {
-  type: string;
-  source: string;
-  by: string;
-  date: Date;
-  description: string;
-  note: string;
-  status: FOComplaintStatus;
-  documents: CMFile[];
-}
+import { ModalContextType, ToastContextType } from "@/types";
+import { useToast } from "@/providers/toast-context";
+import { useModal } from "@/providers/modal-context";
+import ConfirmationCard from "@/components/confirmation-card";
 
 class FrontOfficeStore {
   _settings: FOSettings[] = [];
@@ -118,9 +28,71 @@ class FrontOfficeStore {
   _postalOperations: (FOPostalDispatch | FOPostalReceive)[] = [];
   _complaints: FOComplain[] = [];
   _toast: ToastContextType;
+  _modal: ModalContextType;
+  _foService: FrontOfficeService;
+  _deepCopy: FrontOfficeStore | null = null;
 
-  constructor(toast: ToastContextType) {
+  constructor(
+    toast: ToastContextType,
+    modal: ModalContextType,
+    foService: FrontOfficeService
+  ) {
     this._toast = toast;
+    this._modal = modal;
+    this._foService = foService;
+    this.init();
+  }
+
+  init() {
+    this._deepCopy = _.cloneDeep(this);
+  }
+
+  addFOSettings(_data: FOSetting, _type: string) {
+    // make call to service to add FO settings to the server
+  }
+
+  updateFOSettings(_data: FOSetting, _type: string) {
+    // make call to service to update FO settings to the server
+  }
+
+  confirmDelete(data: ViewOrEditSettingData) {
+    this._modal.openModal({
+      body: (
+        <ConfirmationCard
+          description={
+            Boolean(data.length > 0)
+              ? `Are yo sure to delete ${data.length} items?`
+              : "Are you sure you want to delete this item?"
+          }
+        />
+      ),
+      showSaveButton: true,
+      saveButtonText: "Delete",
+      showCloseButton: false,
+      modalProps: {
+        size: "sm",
+        isDismissable: false,
+      },
+      modalFooterProps: {
+        className: "justify-center",
+      },
+      saveButtonProps: {
+        className: "flex-1",
+        color: "danger",
+      },
+      closButtonProps: {
+        className: "flex-1",
+        color: "default",
+      },
+      onSave: () => {
+        this.deleteFOSettings(data);
+        this._modal.closeModal();
+      },
+    });
+  }
+
+  deleteFOSettings(data: ViewOrEditSettingData) {
+    console.log(data);
   }
 }
 
@@ -128,7 +100,7 @@ export const FrontOfficeStoreContext = React.createContext<FrontOfficeStore>(
   null!
 );
 
-export const useFrontOfficeStoreContext = () => {
+export const useFrontOfficeStore = () => {
   let context = React.useContext(FrontOfficeStoreContext);
 
   if (!context) {
@@ -142,8 +114,12 @@ export const useFrontOfficeStoreContext = () => {
 
 const useFrontOfficeStoreInitialize = () => {
   const toast = useToast();
+  const modal = useModal();
+  const foService = new FrontOfficeService();
 
-  const [store] = useState<FrontOfficeStore>(() => new FrontOfficeStore(toast));
+  const [store] = useState<FrontOfficeStore>(
+    () => new FrontOfficeStore(toast, modal, foService)
+  );
 
   return store;
 };

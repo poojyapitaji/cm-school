@@ -1,4 +1,12 @@
-import { ModalProps, PaginationProps, TableProps } from "@nextui-org/react";
+import {
+  ButtonProps,
+  ModalBodyProps,
+  ModalFooterProps,
+  ModalHeaderProps,
+  ModalProps,
+  PaginationProps,
+  TableProps,
+} from "@nextui-org/react";
 import { ElementType, LazyExoticComponent, ReactNode, SVGProps } from "react";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
@@ -69,6 +77,8 @@ export interface CustomProviderRouteObject extends RouteObject {
 export interface HeaderProps {
   title: string;
   description?: string;
+  startContant?: () => JSX.Element | React.ReactNode;
+  endContant?: () => JSX.Element | React.ReactNode;
 }
 
 export interface CMTableColumn {
@@ -98,10 +108,22 @@ export type CMTableActions = CMTableAction[];
 
 export interface CMTableProps extends TableProps {
   columns?: CMTableColumns;
-  data?: CMTableData;
+  tableData?: CMTableData;
   actions?: CMTableActions;
-  paginationProps?: PaginationProps;
-  searchPlaceholder?: string; // default: "Search"
+  paginationProps?: Partial<PaginationProps>;
+  searchPlaceholder?: string;
+  isFilterable?: boolean;
+  filterContent?: React.FC<{
+    data: CMTableDataItem[];
+    onDataFilter: (filteredData: CMTableDataItem[]) => void;
+  }>;
+  showTotalCount?: boolean;
+  showRowsPerPageSelector?: boolean;
+  showSelectedCount?: boolean;
+  rowPerPage?: number;
+  pageSizeInterval?: number;
+  bulkActionContent?: (data: CMTableDataItem[]) => ReactNode;
+  onBulkDelete?: (data: CMTableDataItem[]) => void;
 }
 
 export interface ToastProviderProps {
@@ -116,22 +138,27 @@ export interface ToastMessage {
 
 export interface ToastContextType {
   publish: (message: Omit<ToastMessage, "id">) => void;
-  success: (text: string) => void;
-  error: (text: string) => void;
-  warning: (text: string) => void;
-  info: (text: string) => void;
+  success: (text: string | any) => void;
+  error: (text: string | any) => void;
+  warning: (text: string | any) => void;
+  info: (text: string | any) => void;
 }
 
 export interface ModalOptions {
   body: ReactNode;
+  modalBodyProps?: Partial<ModalBodyProps>;
   header?: ReactNode;
+  modalHeaderProps?: Partial<ModalHeaderProps>;
   footer?: ReactNode;
+  modalFooterProps?: Partial<ModalFooterProps>;
   modalProps?: Partial<ModalProps>;
   showSaveButton?: boolean;
   saveButtonText?: string;
+  saveButtonProps?: ButtonProps;
   onSave?: () => void;
   onClose?: () => void;
   showCloseButton?: boolean;
+  closButtonProps?: ButtonProps;
   hideBottomCloseButton?: boolean;
   isDismissable?: boolean;
 }
@@ -139,4 +166,10 @@ export interface ModalOptions {
 export interface ModalContextType {
   openModal: (options: ModalOptions) => void;
   closeModal: () => void;
+}
+
+export interface ConfirmationCardProps {
+  icon?: React.JSX.Element | React.FC<IconSvgProps>;
+  title?: string | null;
+  description?: string | null;
 }

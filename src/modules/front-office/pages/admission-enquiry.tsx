@@ -1,5 +1,14 @@
+import { Header } from "@/components/header";
+
 const AdmissionEnquiry = () => {
-  return <main>Admission Enquiry</main>;
+  return (
+    <div>
+      <Header
+        description="Add a new or find admission enquries here."
+        title="Admission Enquiry"
+      />
+    </div>
+  );
 };
 
 export default AdmissionEnquiry;

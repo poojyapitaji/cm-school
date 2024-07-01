@@ -24,6 +24,7 @@
     "@react-aria/visually-hidden": "3.8.12",
     "clsx": "2.1.1",
     "framer-motion": "~11.1.1",
+    "lodash": "^4.17.21",
     "nano-pubsub": "^3.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -32,6 +33,7 @@
     "tailwindcss": "3.4.3"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.5",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.8.0",

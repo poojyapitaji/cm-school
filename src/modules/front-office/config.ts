@@ -3,7 +3,7 @@ import { lazy } from "react";
 import FrontOfficeStoreProvider from "./store/front-office.store";
 
 import { BuildingOffice } from "@/components/icons";
-import { MenuProps } from "@/types";
+import { SidebarMenuProps } from "@/types";
 
 export const init = {
   placement: 1,
@@ -16,7 +16,7 @@ export const metaData = {
   description: "Tools for managing front desk operations and inquiries.",
 };
 
-export const navigation: MenuProps[] = [
+export const navigation: SidebarMenuProps[] = [
   {
     key: init.placement,
     icon: BuildingOffice,
