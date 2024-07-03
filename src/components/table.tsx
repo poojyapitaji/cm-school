@@ -335,42 +335,40 @@ const CMTable: React.FC<CMTableProps> = ({
   };
 
   return (
-    <div>
-      <Table
-        aria-labelledby="cm-table"
-        bottomContent={bottomContent}
-        radius="sm"
-        selectionMode={showSelectedCount ? "multiple" : "none"}
-        topContent={topContent}
-        onSelectionChange={onSelectionChangeHandler}
-        {...props}
-      >
-        <TableHeader columns={headerColumns}>
-          {(column) => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === "actions" ? "center" : "start"}
-              allowsSorting={column.sortable}
-            >
-              {column.name}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody emptyContent={"No rows to display."} items={items}>
-          {(item) => (
-            <TableRow key={item.key}>
-              {(columnKey) => (
-                <TableCell className="truncate">
-                  {columnKey === "actions"
-                    ? renderActionButtons(item)
-                    : getKeyValue(item, columnKey)}
-                </TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
+    <Table
+      aria-labelledby="cm-table"
+      bottomContent={bottomContent}
+      radius="sm"
+      selectionMode={showSelectedCount ? "multiple" : "none"}
+      topContent={topContent}
+      onSelectionChange={onSelectionChangeHandler}
+      {...props}
+    >
+      <TableHeader columns={headerColumns}>
+        {(column) => (
+          <TableColumn
+            key={column.uid}
+            align={column.uid === "actions" ? "center" : "start"}
+            allowsSorting={column.sortable}
+          >
+            {column.name}
+          </TableColumn>
+        )}
+      </TableHeader>
+      <TableBody emptyContent={"No rows to display."} items={items}>
+        {(item) => (
+          <TableRow key={item.key}>
+            {(columnKey) => (
+              <TableCell className="truncate">
+                {columnKey === "actions"
+                  ? renderActionButtons(item)
+                  : getKeyValue(item, columnKey)}
+              </TableCell>
+            )}
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
   );
 };
 

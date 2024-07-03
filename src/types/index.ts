@@ -144,6 +144,11 @@ export interface ToastContextType {
   info: (text: string | any) => void;
 }
 
+export interface ToastProps {
+  messages: ToastMessage[];
+  removeToast: (id: number) => void;
+}
+
 export interface ModalOptions {
   body: ReactNode;
   modalBodyProps?: Partial<ModalBodyProps>;
@@ -172,4 +177,18 @@ export interface ConfirmationCardProps {
   icon?: React.JSX.Element | React.FC<IconSvgProps>;
   title?: string | null;
   description?: string | null;
+}
+
+export interface LoaderContextType {
+  show: (opacity?: number, message?: string) => void;
+  hide: () => void;
+}
+
+export interface LoaderProviderProps {
+  children: React.ReactNode;
+}
+
+export interface LoaderProps {
+  opacity?: number;
+  message?: string;
 }

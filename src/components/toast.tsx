@@ -2,12 +2,7 @@ import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@nextui-org/react";
 
-import { ToastMessage } from "@/providers/toast-context";
-
-export interface ToastProps {
-  messages: ToastMessage[];
-  removeToast: (id: number) => void;
-}
+import { ToastMessage, ToastProps } from "@/types";
 
 const Toast: React.FC<ToastProps> = ({ messages, removeToast }) => {
   const getToastClass = (type: ToastMessage["type"]) => {

@@ -15,10 +15,11 @@ import {
 } from "../types";
 import FrontOfficeService from "../services/front-office-settings.store";
 
-import { ModalContextType, ToastContextType } from "@/types";
+import { LoaderContextType, ModalContextType, ToastContextType } from "@/types";
 import { useToast } from "@/providers/toast-context";
 import { useModal } from "@/providers/modal-context";
 import ConfirmationCard from "@/components/confirmation-card";
+import { useLoader } from "@/providers/loader-context";
 
 class FrontOfficeStore {
   _settings: FOSettings[] = [];
@@ -27,16 +28,19 @@ class FrontOfficeStore {
   _phoneCallLogs: FOPhoneCallLog[] = [];
   _postalOperations: (FOPostalDispatch | FOPostalReceive)[] = [];
   _complaints: FOComplain[] = [];
+  _loader: LoaderContextType;
   _toast: ToastContextType;
   _modal: ModalContextType;
   _foService: FrontOfficeService;
   _deepCopy: FrontOfficeStore | null = null;
 
   constructor(
+    loader: LoaderContextType,
     toast: ToastContextType,
     modal: ModalContextType,
     foService: FrontOfficeService
   ) {
+    this._loader = loader;
     this._toast = toast;
     this._modal = modal;
     this._foService = foService;
@@ -92,7 +96,11 @@ class FrontOfficeStore {
   }
 
   deleteFOSettings(data: ViewOrEditSettingData) {
-    console.log(data);
+    this._loader.show();
+    setTimeout(() => {
+      this._loader.hide();
+      this._toast.success(`Deleted successfully ${JSON.stringify(data)}`);
+    }, 3000);
   }
 }
 
@@ -113,12 +121,13 @@ export const useFrontOfficeStore = () => {
 };
 
 const useFrontOfficeStoreInitialize = () => {
+  const loader = useLoader();
   const toast = useToast();
   const modal = useModal();
   const foService = new FrontOfficeService();
 
   const [store] = useState<FrontOfficeStore>(
-    () => new FrontOfficeStore(toast, modal, foService)
+    () => new FrontOfficeStore(loader, toast, modal, foService)
   );
 
   return store;

@@ -1,4 +1,4 @@
-import { Tabs, Tab, Button, Input } from "@nextui-org/react";
+import { Tabs, Tab, Button } from "@nextui-org/react";
 
 import { useFrontOfficeStore } from "../store/front-office.store";
 import ViewOrEditFOSetting from "../components/modals/view-or-edit-fo-settings";
@@ -6,7 +6,6 @@ import ViewOrEditFOSetting from "../components/modals/view-or-edit-fo-settings";
 import CMTable from "@/components/table";
 import { Header } from "@/components/header";
 import { CMTableActions } from "@/types";
-import { useModal } from "@/providers/modal-context";
 import { convertToTitleCase } from "@/utils";
 import { Plus } from "@/components/icons";
 
@@ -16,8 +15,6 @@ export interface SetupFrontOfficeProps {
 }
 
 const SetupFrontOffice = () => {
-  const { openModal, closeModal } = useModal();
-
   const frontOfficeStore = useFrontOfficeStore();
 
   const options: SetupFrontOfficeProps[] = [
@@ -28,11 +25,11 @@ const SetupFrontOffice = () => {
   ];
 
   const handleSave = () => {
-    closeModal();
+    frontOfficeStore._modal.closeModal();
   };
 
   const handleModal = (data: any, isReadOnly = false) => {
-    openModal({
+    frontOfficeStore._modal.openModal({
       header: `${isReadOnly ? "View" : "Edit"} ${convertToTitleCase(
         data.type
       )}`,
